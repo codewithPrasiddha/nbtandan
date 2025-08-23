@@ -1,561 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Portfolio - NB Tandan</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NB Tandan — Nepal × Canada</title>
+  <meta name="description" content="NB Tandan: Building bridges between Nepal and Canada through tourism, culture, and community." />
+  <link rel="icon" href="assets/img/favicon.png" />
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Brand palette: Nepal (crimson/royal blue) + Canada (red/white) */
+      --np-red:#DC143C; /* Nepal crimson */
+      --np-blue:#003893; /* Nepal blue */
+      --ca-red:#D32F2F; /* Canada red */
+      --white:#ffffff;
+      --ink:#0b1020;
+      --muted:#9aa4b2;
+      --bg:#060910;      /* Page background */
+      --card:#0d1322;    /* Card background */
+      --glass:rgba(255,255,255,.06);
+      --ring:0 0 0 3px rgba(220,20,60,.25);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;background:
+      radial-gradient(1200px 800px at 100% -10%,rgba(0,56,147,.35),transparent 60%),
+      radial-gradient(1200px 800px at -20% 10%,rgba(211,47,47,.35),transparent 60%),
+      var(--bg);
+      color:#eaf1ff;line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1200px;margin:auto;padding:0 24px}
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    /* ===== Header / Navigation ===== */
+    header{position:sticky;top:0;z-index:80;backdrop-filter:saturate(140%) blur(10px);background:rgba(6,9,16,.65);border-bottom:1px solid var(--glass)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand .logo{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--white)}
+    .brand h1{margin:0;font-size:18px;letter-spacing:.4px}
+    .accent-flag{display:inline-grid;grid-auto-flow:column;gap:0;align-items:center}
+    .accent-flag i{display:inline-block;width:12px;height:12px}
+    .np{background:linear-gradient(135deg,var(--np-red),var(--np-blue))}
+    .ca{background:linear-gradient(135deg,var(--ca-red),var(--white))}
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <!-- Lightbox2 CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    .nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+    .nav a{padding:8px 12px;border-radius:12px;color:#c7d2e1;font-weight:700}
+    .nav a:hover,.nav a.active{color:#101522;background:linear-gradient(90deg,var(--white),#d9e3ff)}
+    .cta{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;font-weight:900;color:#001325;background:linear-gradient(90deg,var(--np-red),var(--ca-red));box-shadow:0 6px 18px rgba(211,47,47,.25)}
 
-<!-- Swiper CSS -->
-<link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet" />
+    /* ===== Hero ===== */
+    #hero{position:relative;overflow:hidden}
+    .hero-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:46px;align-items:center;padding:90px 0}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--glass);backdrop-filter:blur(6px);font-weight:800}
+    .hero h2{font-size:56px;line-height:1.05;margin:14px 0 18px;font-weight:900}
+    .hero p{color:#b6c2d6;margin:0 0 22px}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-card{position:relative;border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--glass);box-shadow:0 30px 80px rgba(0,0,0,.35)}
+    .hero-card::after{content:"";position:absolute;inset:auto -40px -40px auto;width:220px;height:220px;background:conic-gradient(from 0deg,var(--np-red),var(--np-blue),var(--ca-red));filter:blur(20px);opacity:.25;border-radius:50%}
+    .hero-flags{display:grid;grid-template-columns:1fr 1fr}
+    .hero-flags img{height:100%;object-fit:cover}
 
-<!-- Swiper JS (before </body>) -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    /* Flag Divider */
+    .divider{position:relative;height:18px;background:linear-gradient(90deg,var(--np-blue) 0 25%,var(--np-red) 25% 50%, var(--white) 50% 62.5%, var(--ca-red) 62.5% 100%)}
+    .divider::before{content:"";position:absolute;left:0;top:-18px;border-left:45px solid transparent;border-right:45px solid transparent;border-bottom:18px solid var(--np-blue)}
+    .divider::after{content:"";position:absolute;right:0;bottom:-18px;border-left:45px solid transparent;border-right:45px solid transparent;border-top:18px solid var(--ca-red)}
 
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+    /* ===== Sections / Cards ===== */
+    section{padding:70px 0;border-top:1px solid var(--glass)}
+    .section-title{display:flex;align-items:center;gap:12px;margin:0 0 24px}
+    .section-title .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--np-red),var(--np-blue));box-shadow:0 0 0 6px rgba(0,56,147,.18)}
+    h3{margin:0;font-size:30px}
+    .grid{display:grid;gap:20px}
+    .card{background:var(--card);border:1px solid var(--glass);border-radius:18px;padding:22px}
+    .muted{color:#aab7cc}
 
+    /* About */
+    .about{grid-template-columns: 340px 1fr}
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+    .kv div{background:rgba(255,255,255,.05);padding:12px;border-radius:12px}
 
+    /* Timeline */
+    .timeline{display:grid;gap:14px}
+    .step{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:start;padding:14px;border:1px dashed rgba(255,255,255,.12);border-radius:14px}
+    .step .year{font-weight:900;color:#d9e3ff}
+
+    /* Impact */
+    .impact{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .impact .icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--np-blue),var(--np-red));margin-bottom:10px}
+
+    /* Gallery (Masonry via CSS columns + fallback grid) */
+    .gallery-intro{margin-top:-6px}
+    .masonry{column-count:4;column-gap:14px}
+    .masonry a{break-inside:avoid;display:block;margin:0 0 14px;border-radius:14px;overflow:hidden;border:1px solid var(--glass);position:relative}
+    .masonry img{width:100%;height:auto;display:block}
+    .masonry a::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.25));opacity:0;transition:opacity .25s}
+    .masonry a:hover::after{opacity:1}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(6,9,16,.92);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:100}
+    .lightbox.open{display:flex}
+    .lb-inner{position:relative;max-width:min(92vw,1200px);max-height:88vh}
+    .lb-img{max-width:100%;max-height:88vh;border-radius:12px;box-shadow:0 10px 60px rgba(0,0,0,.6);border:1px solid var(--glass)}
+    .lb-close,.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid var(--glass);color:#fff;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;cursor:pointer}
+    .lb-close{top:-56px;right:0;transform:none}
+    .lb-prev{left:-56px}
+    .lb-next{right:-56px}
+
+    /* Media */
+    .media-grid{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+    .ratio{position:relative;width:100%;padding-top:56.25%;border-radius:14px;overflow:hidden;border:1px solid var(--glass)}
+    .ratio iframe{position:absolute;inset:0;width:100%;height:100%}
+
+    /* Contact */
+    form{display:grid;gap:12px}
+    input,textarea{background:#0f1627;color:#eaf1ff;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;font:inherit}
+    input:focus,textarea:focus{outline:none;box-shadow:var(--ring);border-color:var(--np-red)}
+    button{border:0;border-radius:12px;padding:12px 14px;font-weight:900;cursor:pointer;background:linear-gradient(90deg,var(--np-blue),var(--np-red),var(--ca-red));color:#fff}
+
+    footer{padding:40px 0;color:#aab7cc;text-align:center;border-top:1px solid var(--glass)}
+
+    /* Back-to-top */
+    #topbtn{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--np-red),var(--np-blue));color:#fff;border:1px solid var(--glass);box-shadow:0 10px 30px rgba(0,0,0,.35);cursor:pointer;opacity:0;transform:translateY(10px);transition:.25s}
+    #topbtn.show{opacity:1;transform:none}
+
+    /* Responsive */
+    @media (max-width:1100px){ .masonry{column-count:3} }
+    @media (max-width:820px){
+      .hero-wrap{grid-template-columns:1fr}
+      .about{grid-template-columns:1fr}
+      .masonry{column-count:2}
+    }
+    @media (max-width:540px){ .masonry{column-count:1} }
+  </style>
 </head>
-
-<body class="index-page">
-
-  <header id="header" class="header dark-background d-flex flex-column">
-    <i class="header-toggle d-xl-none bi bi-list"></i>
-
-    <div class="profile-img">
-      <img src="assets/img/my-profile-img.jpg" alt="" class="img-fluid rounded-circle">
-    </div>
-
-    <a href="index.html" class="logo d-flex align-items-center justify-content-center">
-      <!-- Uncomment the line below if you also wish to use an image logo -->
-      <!-- <img src="assets/img/logo.png" alt=""> -->
-      <h1 class="sitename">NB Tandan</h1>
-    </a>
-
-    <div class="social-links text-center">
-      <a href="https://www.facebook.com/nb.tandan" class="facebook"><i class="bi bi-facebook"></i></a>
-      <a href="https://www.linkedin.com/in/nar-bahadur-tandan-52074434/" class="linkedin"><i class="bi bi-linkedin"></i></a>
-    </div>
-
-    <nav id="navmenu" class="navmenu">
+<body>
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="NB Tandan Home">
+        <img class="logo" src="assets/img/my-profile-img.jpg" alt="NB Tandan" />
+        <div>
+          <h1>NB Tandan</h1>
+          <div class="accent-flag" aria-hidden="true">
+            <i class="np"></i><i class="ca"></i>
+          </div>
+        </div>
+      </a>
       <ul>
-        <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
-        <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
-        <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Resume</a></li>
-        <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li>
-        <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i> Services</a></li>
-        <li><a href="#contact"><i class="bi bi-envelope navicon"></i> Contact</a></li>
+        <li><a class="active" href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#contact" class="cta">Get in touch</a></li>
       </ul>
-    </nav>
-
+    </div>
   </header>
 
-  <main class="main">
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background">
-
-      <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in" class="">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <h2>NB Tandan</h2>
-        <p><span class="typed" data-typed-items="Entrepreneur, Social Activist, Tourism Leader, Community Builder">Entrepreneur</span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span></p>
-      </div>
-
-    </section><!-- /Hero Section -->
-
-    <!-- About Section -->
-    <section id="about" class="about section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>About</h2>
-        <p>NB Tandan is an entrepreneur, tourism enthusiast, social activist and president of Canada Nepal Tourism Culture and Trade based in Canada. His business is mainly focused in tourism and transportation industries.</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4 justify-content-center">
-          <div class="col-lg-4">
-            <img src="assets/img/my-profile-img1.jpg" class="img-fluid" alt="">
+  <!-- ===== Hero ===== -->
+  <main id="top" class="hero">
+    <section id="hero">
+      <div class="container hero-wrap">
+        <div>
+          <span class="hero-eyebrow"><span class="accent-flag"><i class="np"></i><i class="ca"></i></span> Nepal × Canada</span>
+          <h2>Building cultural, tourism, and trade bridges across borders.</h2>
+          <p>Entrepreneur, community organizer, and advocate for responsible tourism — amplifying Nepal’s heritage while forging partnerships in Canada.</p>
+          <div class="hero-cta">
+            <a class="cta" href="#impact">Explore Impact</a>
+            <a class="cta" style="background:linear-gradient(90deg,var(--white),#e4eef9);color:#0d1322" href="https://www.linkedin.com/in/nar-bahadur-tandan-52074434/" target="_blank" rel="noopener">Connect on LinkedIn</a>
           </div>
-          <div class="col-lg-8 content text-center">
-            <h2>Uniting Nepal and Canada Since the Beginning</h2>
-            <p class="fst-italic py-3">
-              Bridging cultures, communities, and opportunities through dedication and vision.
-            </p>
-            <div class="flag-container">
-              <img src="assets/img/flag.png" alt="Nepal Canada Flags" class="waving-flag">
+        </div>
+        <div class="hero-card">
+          <div class="hero-flags">
+            <img src="assets/img/flag.png" alt="Nepal & Canada flags" />
+            <img src="assets/img/hero-bg.jpg" alt="Cultural & landscape collage" />
+          </div>
+        </div>
+      </div>
+      <div class="divider" aria-hidden="true"></div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section id="about">
+      <div class="container">
+        <div class="section-title"><span class="dot"></span><h3>About NB Tandan</h3></div>
+        <div class="grid about">
+          <div class="card">
+            <img src="assets/img/my-profile-img1.jpg" alt="NB Tandan portrait" style="border-radius:14px" />
+            <div class="kv">
+              <div><strong>Based</strong><br><span class="muted">Canada & Nepal</span></div>
+              <div><strong>Focus</strong><br><span class="muted">Tourism • Culture • Community</span></div>
+              <div><strong>Languages</strong><br><span class="muted">English • Nepali</span></div>
+              <div><strong>Follow</strong><br>
+                <a href="https://www.facebook.com/nb.tandan">facebook.com/nb.tandan</a>
+              </div>
             </div>
-              From fostering tourism to promoting cultural exchange, NB Tandan has been instrumental in strengthening the bond between Nepal and Canada. His journey reflects the power of unity and grassroots action across borders.
-            </p>
           </div>
-          
-
-      </div>
-
-    </section><!-- /About Section -->
-
-    <!-- Stats Section -->
-<!-- Stats Section Replaced with Video -->
-<!-- Stats Section with 3x2 Video Grid -->
-<section id="stats" class="stats section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row g-4 justify-content-center">
-
-      <!-- Video 1 -->
-      <div class="col-md-6 col-lg-4">
-        <div class="ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/-JhBd6HxrGs?rel=0&modestbranding=1"
-                  title="NB Tandan Video 1" frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
-        </div>
-      </div>
-
-      <!-- Video 4 -->
-      <div class="col-md-6 col-lg-4">
-        <div class="ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/9R7v8b3gbrg?rel=0&modestbranding=1"
-                  title="NB Tandan Video 4" frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-
-
-
-<!-- Resume Section -->
-<section id="resume" class="resume section">
-
-  <!-- Section Title -->
-  <div class="container section-title" data-aos="fade-up">
-    <h2>Resume</h2>
-    <p>NB Tandan is a dedicated entrepreneur and social activist serving as the Honorary Public Relations Representative for the Nepal Tourism Board in Canada. His work spans educational leadership, humanitarian support, and global cultural promotion.</p>
-  </div><!-- End Section Title -->
-
-  <div class="container">
-
-    <div class="row">
-
-      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-        <h3 class="resume-title">Summary</h3>
-
-        <div class="resume-item pb-0">
-          <h4>NB Tandan</h4>
-          <p><em>Entrepreneur, Tourism Leader, and Social Activist with a strong record of community support, cultural advocacy, and public engagement across Nepal and Canada.</em></p>
-          <ul>
-            <li>Canada & Nepal</li>
-            <li>President – Canada Nepal Tourism Culture and Trade</li>
-            <li>info@securewebserver.tech (or add his actual email if preferred)</li>
-          </ul>
-        </div><!-- End Resume Item -->
-
-        <h3 class="resume-title">Official Leadership Projects</h3>
-        <div class="resume-item">
-          <h4>Educational & Social Programs</h4>
-          <ul>
-            <li>Kurechaur School – ₹30 Lakh</li>
-            <li>Tari Gau School – ₹15 Lakh</li>
-            <li>Deukhori School – ₹27 Lakh</li>
-            <li>Ghorahi School – ₹35 Lakh</li>
-            <li>Jana Chetana Club Awareness – ₹35 Lakh</li>
-            <li>Badi Children Education Project, Dang</li>
-            <li>Mao Badi Sojgar Program, Ghorahi – ₹45 Lakh</li>
-          </ul>
-        </div><!-- End Resume Item -->
-
-
-      </div>
-
-      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-        <h3 class="resume-title">Personal Contributions</h3>
-        <div class="resume-item">
-          <ul>
-            <li>Donated 1 computer to Rukum School</li>
-            <li>Supported Achxya Kosh in Kutechaur & Lamidamar</li>
-            <li>Bijauli Health Post support</li>
-            <li>PPE donations during COVID (Dang, Kailali, Kanchanpur, Doti, Darchula)</li>
-            <li>Tourism Books (Pardes 5, Chitwan, and regional info books)</li>
-            <li>Medical support for brain tumor, spinal cord injury, kidney failure cases</li>
-            <li>Flood victim support in Dhangadi</li>
-            <li>Community support projects in Dang, Dhangadi, Surkhet</li>
-          </ul>
-        </div>
-
-        <h3 class="resume-title">International Activities</h3>
-        <div class="resume-item">
-          <ul>
-            <li>Nepal promotion via semi-truck campaign</li>
-            <li>Canadian Multicultural Festival (Brampton & Mississauga – 3 yrs)</li>
-            <li>Nepal promotion via public buses (GTA Canada)</li>
-            <li>Promotional sticker campaigns in Canada & USA</li>
-            <li>Trucker’s Night event</li>
-            <li>Nepal Promotion Rally in Canada</li>
-          </ul>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section><!-- /Resume Section -->
-
-
-<section id="portfolio" class="portfolio section light-background">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>Gallery</h2>
-  </div>
-
-  <div class="container portfolio-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
-    <!-- 39 images -->
-    <div class="portfolio-item"><a href="assets/img/portfolio/1.jpg" class="glightbox"><img src="assets/img/portfolio/1.jpg" alt="Image 1"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/2.jpg" class="glightbox"><img src="assets/img/portfolio/2.jpg" alt="Image 2"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/3.jpg" class="glightbox"><img src="assets/img/portfolio/3.jpg" alt="Image 3"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/4.jpg" class="glightbox"><img src="assets/img/portfolio/4.jpg" alt="Image 4"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/5.jpg" class="glightbox"><img src="assets/img/portfolio/5.jpg" alt="Image 5"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/6.jpg" class="glightbox"><img src="assets/img/portfolio/6.jpg" alt="Image 6"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/10.jpg" class="glightbox"><img src="assets/img/portfolio/10.jpg" alt="Image 10"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/11.jpg" class="glightbox"><img src="assets/img/portfolio/11.jpg" alt="Image 11"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/12.jpg" class="glightbox"><img src="assets/img/portfolio/12.jpg" alt="Image 12"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/13.jpg" class="glightbox"><img src="assets/img/portfolio/13.jpg" alt="Image 13"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/14.jpg" class="glightbox"><img src="assets/img/portfolio/14.jpg" alt="Image 14"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/15.jpg" class="glightbox"><img src="assets/img/portfolio/15.jpg" alt="Image 15"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/16.jpg" class="glightbox"><img src="assets/img/portfolio/16.jpg" alt="Image 16"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/17.jpg" class="glightbox"><img src="assets/img/portfolio/17.jpg" alt="Image 17"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/18.jpg" class="glightbox"><img src="assets/img/portfolio/18.jpg" alt="Image 18"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/19.jpg" class="glightbox"><img src="assets/img/portfolio/19.jpg" alt="Image 19"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/20.jpg" class="glightbox"><img src="assets/img/portfolio/20.jpg" alt="Image 20"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/21.jpg" class="glightbox"><img src="assets/img/portfolio/21.jpg" alt="Image 21"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/22.jpg" class="glightbox"><img src="assets/img/portfolio/22.jpg" alt="Image 22"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/23.jpg" class="glightbox"><img src="assets/img/portfolio/23.jpg" alt="Image 23"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/24.jpg" class="glightbox"><img src="assets/img/portfolio/24.jpg" alt="Image 24"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/25.jpg" class="glightbox"><img src="assets/img/portfolio/25.jpg" alt="Image 25"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/26.jpg" class="glightbox"><img src="assets/img/portfolio/26.jpg" alt="Image 26"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/27.jpg" class="glightbox"><img src="assets/img/portfolio/27.jpg" alt="Image 27"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/28.jpg" class="glightbox"><img src="assets/img/portfolio/28.jpg" alt="Image 28"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/29.jpg" class="glightbox"><img src="assets/img/portfolio/29.jpg" alt="Image 29"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/30.jpg" class="glightbox"><img src="assets/img/portfolio/30.jpg" alt="Image 30"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/31.jpg" class="glightbox"><img src="assets/img/portfolio/31.jpg" alt="Image 31"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/32.jpg" class="glightbox"><img src="assets/img/portfolio/32.jpg" alt="Image 32"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/33.jpg" class="glightbox"><img src="assets/img/portfolio/33.jpg" alt="Image 33"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/34.jpg" class="glightbox"><img src="assets/img/portfolio/34.jpg" alt="Image 34"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/35.jpg" class="glightbox"><img src="assets/img/portfolio/35.jpg" alt="Image 35"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/36.jpg" class="glightbox"><img src="assets/img/portfolio/36.jpg" alt="Image 36"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/37.jpg" class="glightbox"><img src="assets/img/portfolio/37.jpg" alt="Image 37"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/38.jpg" class="glightbox"><img src="assets/img/portfolio/38.jpg" alt="Image 38"></a></div>
-    <div class="portfolio-item"><a href="assets/img/portfolio/39.jpg" class="glightbox"><img src="assets/img/portfolio/39.jpg" alt="Image 39"></a></div>
-  </div>
-</section>
-
-    <!-- Services Section -->
-<!-- Services Section -->
-<section id="services" class="services section">
-
-  <!-- Section Title -->
-  <div class="container section-title" data-aos="fade-up">
-    <h2>What We Do</h2>
-    <p>Under the leadership of N B Tandan, our mission is to build lasting cultural and economic bridges between Nepal and Canada through advocacy, events, and strategic initiatives.</p>
-  </div><!-- End Section Title -->
-
-  <div class="container">
-    <div class="row gy-4">
-
-      <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
-        <div class="icon flex-shrink-0"><i class="bi bi-airplane-engines"></i></div>
-        <div>
-          <h4 class="title"><a href="#" class="stretched-link">Tourism Promotion</a></h4>
-          <p class="description">Representing Nepal as a Goodwill Ambassador and promoting sustainable tourism between Canada and Nepal through CNTCT events and outreach campaigns.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
-        <div class="icon flex-shrink-0"><i class="bi bi-globe-central-south-asia"></i></div>
-        <div>
-          <h4 class="title"><a href="#" class="stretched-link">Cultural Exchange</a></h4>
-          <p class="description">Organizing multicultural festivals, language programs, and artistic showcases to foster appreciation of Nepali heritage in Canada and globally.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="300">
-        <div class="icon flex-shrink-0"><i class="bi bi-hand-thumbs-up"></i></div>
-        <div>
-          <h4 class="title"><a href="#" class="stretched-link">Community Advocacy</a></h4>
-          <p class="description">Engaging with Canadian institutions to uplift the South Asian diaspora and provide platforms for youth, entrepreneurs, and cultural leaders.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="400">
-        <div class="icon flex-shrink-0"><i class="bi bi-bar-chart-line"></i></div>
-        <div>
-          <h4 class="title"><a href="#" class="stretched-link">Trade & Investment</a></h4>
-          <p class="description">Facilitating trade dialogue, import/export guidance, and partnership development between Nepali and Canadian businesses through CNTCT initiatives.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="500">
-        <div class="icon flex-shrink-0"><i class="bi bi-droplet-half"></i></div>
-        <div>
-          <h4 class="title"><a href="#" class="stretched-link">Humanitarian Relief</a></h4>
-          <p class="description">Supporting urgent causes such as flood relief and disaster recovery in Nepal, with grassroots and diaspora-driven mobilization.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="600">
-        <div class="icon flex-shrink-0"><i class="bi bi-megaphone"></i></div>
-        <div>
-          <h4 class="title"><a href="#" class="stretched-link">Public Representation</a></h4>
-          <p class="description">Representing Nepal at global forums including the World Leaders Summit, advocating for culture, tourism, and inclusive development worldwide.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</section><!-- /Services Section -->
-
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section light-background" style="display: none;">
-    
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Testimonials</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-    
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-    
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-                {
-                  "loop": true,
-                  "speed": 600,
-                  "autoplay": {
-                    "delay": 5000
-                  },
-                  "slidesPerView": "auto",
-                  "pagination": {
-                    "el": ".swiper-pagination",
-                    "type": "bullets",
-                    "clickable": true
-                  },
-                  "breakpoints": {
-                    "320": {
-                      "slidesPerView": 1,
-                      "spaceBetween": 40
-                    },
-                    "1200": {
-                      "slidesPerView": 3,
-                      "spaceBetween": 1
-                    }
-                  }
-                }
-              </script>
-          <div class="swiper-wrapper">
-    
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus.
-                    Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
-                  < <h3>Saul Goodman</h3>- <h4>Ceo &amp; Founder</h4>
-              </div>
-            </div><!-- End testimonial item -->.j <div class="swiper-slide">> <div class="testimonial-item">
-                <p> <i class="bi bi-quote quote-icon-left"></i> <span>Export tempor illum tamen malis malis eram quae irure
-                    esse labore quem cillum quid malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet
-                    legam anim culpa.</span>e <i class="bi bi-quote quote-icon-right"></i>e </p>e <img
-                  src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">e <h3>Sara Wilsson</h3>c
-                <h4>Designer</h4>
-              </div>b </div><!-- End testimonial item -->
-            <div class="swiper-slide">s <div class="testimonial-item">" <p>m <i class="bi bi-quote quote-icon-left"></i>>
-                  <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim
-                    tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span> <i
-                    class="bi bi-quote quote-icon-right"></i>t </p>/i>
-                <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim
-                  tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                <h3>Jena Karlis</h3>
-                <h4>Store Owner</h4>
-              </div>
-            </div><!-- End testimonial item -->
-    
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat dolor enim
-                    duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-              </div>
-            </div><!-- End testimonial item -->
-    
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam sunt
-                    culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                <h3>John Larson</h3>
-                <h4>Entrepreneur</h4>
-              </div>
-            </div><!-- End testimonial item -->
-    
+          <div class="card">
+            <h4 style="margin:0 0 10px">Story</h4>
+            <p class="muted">From grassroots organizing to international collaboration, NB Tandan’s journey is about connecting people with purpose — celebrating Nepali identity while forging lasting ties with Canadian communities.</p>
+            <div class="timeline">
+              <div class="step"><div class="year">Early</div><div>Mobilized Nepali diaspora networks, promoting cultural pride and mutual support.</div></div>
+              <div class="step"><div class="year">Growth</div><div>Partnered with organizations and cities to showcase Nepal’s tourism and heritage.</div></div>
+              <div class="step"><div class="year">Today</div><div>Leading initiatives that elevate trade, education, and cultural exchange between Nepal and Canada.</div></div>
+            </div>
           </div>
-          <div class="swiper-pagination"></div>
         </div>
-    
       </div>
-    
-    </section><!-- /Testimonials Section -->
+    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
+    <!-- ===== Impact ===== -->
+    <section id="impact">
+      <div class="container">
+        <div class="section-title"><span class="dot"></span><h3>Initiatives & Impact</h3></div>
+        <div class="grid impact">
+          <article class="card"><div class="icon">🏔️</div><h4>Tourism Promotion</h4><p class="muted">Showcasing Nepal’s natural beauty and hospitality to international audiences; opening pathways for responsible travel and local opportunity.</p></article>
+          <article class="card"><div class="icon">🤝</div><h4>Community Building</h4><p class="muted">Organizing multicultural festivals, rallies, and meetups that strengthen identity and friendship in the Nepali–Canadian community.</p></article>
+          <article class="card"><div class="icon">📚</div><h4>Education & Relief</h4><p class="muted">Supporting schools, health posts, and relief drives — from equipment donations to emergency response.</p></article>
+          <article class="card"><div class="icon">🌐</div><h4>Trade & Partnerships</h4><p class="muted">Connecting businesses across borders for shared growth, cultural exchange, and sustainable development.</p></article>
+        </div>
+      </div>
+    </section>
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-            </div><!-- End Section Title -->
+    <!-- ===== Gallery ===== -->
+    <section id="gallery">
+      <div class="container">
+        <div class="section-title"><span class="dot"></span><h3>Gallery</h3></div>
+        <p class="muted gallery-intro">Tap any photo to view large. The grid auto-fills from <code>assets/img/portfolio/</code> — drop in more files and they’ll appear.</p>
+        <div class="masonry" id="masonry"></div>
+      </div>
+    </section>
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-5">
-
-            <div class="info-wrap">
-              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
-                <i class="bi bi-geo-alt flex-shrink-0"></i>
-                <div>
-                  <h3>Address</h3>
-                  <p>Brampton, Ontario</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-                <i class="bi bi-telephone flex-shrink-0"></i>
-                <div>
-                  <h3>Call at</h3>
-                  <p>+1 XXXX XXXX XX</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-                <i class="bi bi-envelope flex-shrink-0"></i>
-                <div>
-                  <h3>Email Us</h3>
-                  <p>nbtandan@gmail.com</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2886.180026131109!2d-79.7605656845046!3d43.731547379118556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b14d9f3ffbe97%3A0x5037b28c7230440!2sBrampton%2C%20ON!5e0!3m2!1sen!2sca!4v1718139000000!5m2!1sen!2sca" 
-              frameborder="0" 
-              style="border:0; width: 100%; height: 270px;" 
-              allowfullscreen="" 
-              loading="lazy" 
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-                        </div>
+    <!-- ===== Media (Videos) ===== -->
+    <section id="media">
+      <div class="container">
+        <div class="section-title"><span class="dot"></span><h3>Media & Interviews</h3></div>
+        <div class="grid media-grid">
+          <div class="card">
+            <div class="ratio"><iframe src="https://www.youtube.com/embed/-JhBd6HxrGs?rel=0&modestbranding=1" title="NB Tandan Video 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
           </div>
-
-
-
+          <div class="card">
+            <div class="ratio"><iframe src="https://www.youtube.com/embed/9R7v8b3gbrg?rel=0&modestbranding=1" title="NB Tandan Video 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+          </div>
         </div>
-
       </div>
+    </section>
 
-    </section><!-- /Contact Section -->
-
+    <!-- ===== Contact ===== -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-title"><span class="dot"></span><h3>Contact</h3></div>
+        <div class="grid" style="grid-template-columns: 1fr .9fr">
+          <div class="card">
+            <h4 style="margin:0 0 10px">Let’s collaborate</h4>
+            <p class="muted">Got an idea for cultural exchange, an event, or a partnership? Reach out and let’s make it happen.</p>
+            <p class="muted"><strong>Facebook:</strong> <a href="https://www.facebook.com/nb.tandan">facebook.com/nb.tandan</a></p>
+            <p class="muted"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/nar-bahadur-tandan-52074434/">linkedin.com/in/nar-bahadur-tandan-52074434</a></p>
+            <p class="muted"><strong>Email:</strong> <a href="mailto:nbtandan@gmail.com">nbtandan@gmail.com</a></p>
+            <p class="muted"><strong>Location:</strong> Brampton, Ontario</p>
+          </div>
+          <form class="card" onsubmit="event.preventDefault(); alert('Thanks! Your message has been sent.');">
+            <label>
+              <span class="muted">Your name</span>
+              <input required placeholder="Full name" />
+            </label>
+            <label>
+              <span class="muted">Email</span>
+              <input type="email" required placeholder="you@example.com" />
+            </label>
+            <label>
+              <span class="muted">Message</span>
+              <textarea rows="5" required placeholder="How can we collaborate?"></textarea>
+            </label>
+            <button type="submit">Send message</button>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer id="footer" class="footer position-relative light-background">
-
+  <footer>
     <div class="container">
-      <div class="copyright text-center ">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">BootstrapMade</strong> <span>All Rights Reserved</span></p>
+      <div style="display:flex;justify-content:center;gap:14px;margin-bottom:8px">
+        <a href="#hero" class="muted">Home</a> •
+        <a href="#about" class="muted">About</a> •
+        <a href="#impact" class="muted">Impact</a> •
+        <a href="#gallery" class="muted">Gallery</a>
       </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://www.linkedin.com/in/prasiddha-thapaliya/">Prasiddha</a> For <a href="https://www.facebook.com/nb.tandan">NB Tandan</a>
-      </div>
+      <small>© <span id="y"></span> NB Tandan — Nepal × Canada.</small>
     </div>
-
   </footer>
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <button id="topbtn" aria-label="Back to top" title="Back to top">↑</button>
 
-  <!-- Preloader -->
-  <div id="preloader"></div>
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <div class="lb-inner">
+      <img class="lb-img" id="lbImg" alt="Gallery image" />
+      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+      <button class="lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+      <button class="lb-next" id="lbNext" aria-label="Next">›</button>
+    </div>
+  </div>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/typed.js/typed.umd.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-  
-
-  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
   <script>
-    const lightbox = GLightbox({
-      selector: '.glightbox',
-      loop: true,
-      zoomable: true,
-      closeButton: true,
-      touchNavigation: true,
-    });
-  </script>
-  
-</body>
+    /* ===== Utilities ===== */
+    const $ = (q,root=document)=>root.querySelector(q);
+    const $$ = (q,root=document)=>Array.from(root.querySelectorAll(q));
 
+    /* ===== Active nav on scroll ===== */
+    const navLinks = $$('.nav a');
+    const setActive = () => {
+      let hash = '#hero';
+      $$('main section').forEach(sec=>{ const r = sec.getBoundingClientRect(); if(r.top < innerHeight*0.35) hash = '#' + sec.id; });
+      navLinks.forEach(a=> a.classList.toggle('active', a.getAttribute('href')===hash));
+    };
+    document.addEventListener('scroll', setActive, {passive:true});
+    setActive();
+
+    /* ===== Back to top ===== */
+    const topbtn = $('#topbtn');
+    const onScroll = () => { topbtn.classList.toggle('show', scrollY > 640); };
+    document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+    topbtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+
+    /* ===== Masonry Gallery (auto-fill) ===== */
+    const gallery = $('#masonry');
+    const images = [];
+    // Preload a big range; non-existing files auto-skip on error.
+    for (let i=1;i<=60;i++){ images.push(`assets/img/portfolio/${i}.jpg`); }
+
+    let currentIndex = 0; // For lightbox navigation
+
+    function addImage(src){
+      const a = document.createElement('a');
+      a.href = src; a.target = '_blank'; a.ariaLabel = 'Open image';
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.alt = 'Gallery image';
+      img.src = src;
+      img.onerror = () => a.remove();
+      img.onclick = (e)=>{ e.preventDefault(); openLightbox(src); currentIndex = images.indexOf(src); };
+      a.appendChild(img);
+      gallery.appendChild(a);
+    }
+
+    images.forEach(src => addImage(src));
+
+    /* ===== Lightbox ===== */
+    const lb = $('#lightbox');
+    const lbImg = $('#lbImg');
+    const lbClose = $('#lbClose');
+    const lbPrev = $('#lbPrev');
+    const lbNext = $('#lbNext');
+
+    function openLightbox(src){ lbImg.src = src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
+    function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); }
+    lbClose.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox(); });
+    document.addEventListener('keydown', (e)=>{ if(!lb.classList.contains('open')) return; if(e.key==='Escape') closeLightbox(); if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+
+    function prev(){ for(let i=1;i<images.length;i++){ const idx=(currentIndex - i + images.length)%images.length; if($('.masonry img[src="'+images[idx]+'"]')) { currentIndex = idx; openLightbox(images[idx]); break; } } }
+    function next(){ for(let i=1;i<images.length;i++){ const idx=(currentIndex + i)%images.length; if($('.masonry img[src="'+images[idx]+'"]')) { currentIndex = idx; openLightbox(images[idx]); break; } } }
+    lbPrev.addEventListener('click', prev);
+    lbNext.addEventListener('click', next);
+
+    /* ===== Footer year ===== */
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
