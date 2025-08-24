@@ -328,116 +328,193 @@
     </div>
   </div>
 
-  <script>
-    const $ = (q,root=document)=>root.querySelector(q);
-    const $$ = (q,root=document)=>Array.from(root.querySelectorAll(q));
+<script>
+/* ---------- Stop first-load jump + correct sticky-header offset ---------- */
+(function () {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-    const navLinks = $$('.nav a');
-    const setActive = () => {
-      let hash = '#hero';
-      $$('main section').forEach(sec=>{ const r = sec.getBoundingClientRect(); if(r.top < innerHeight*0.35) hash = '#' + sec.id; });
-      navLinks.forEach(a=> a.classList.toggle('active', a.getAttribute('href')===hash));
-    };
-    document.addEventListener('scroll', setActive, {passive:true});
-    setActive();
+  const htmlEl = document.documentElement;
+  const headerElBoot = document.querySelector('header');
+  const getHeaderH = () => (headerElBoot?.offsetHeight) || 66;
 
-    const topbtn = $('#topbtn');
-    const onScroll = () => { topbtn.classList.toggle('show', scrollY > 640); };
-    document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
-    topbtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
-
-    // Masonry gallery (robust loader: zero-padded names + case-insensitive extensions + manual override)
-    const gallery = $('#masonry');
-    const emptyMsg = $('#galleryEmpty');
-    const added = new Set();
-    let appendedCount = 0;
-
-    const exts = ['jpg','jpeg','png','webp','JPG','JPEG','PNG','WEBP'];
-    const ids = Array.from({length:200}, (_,k)=>k+1);
-    const namePatterns = (i)=>[ String(i), String(i).padStart(2,'0'), String(i).padStart(3,'0') ];
-
-    const manual = Array.isArray(window.GALLERY_FILES) ? window.GALLERY_FILES : [];
-
-    function appendImg(src){
-      if ([...gallery.querySelectorAll('img')].some(img=>img.getAttribute('src')===src)) return;
-      const a = document.createElement('a');
-      a.href = src; a.target = '_blank'; a.ariaLabel = 'Open image';
-      const img = new Image(); img.loading = 'lazy'; img.alt = 'Gallery image'; img.src = src;
-      img.onclick = (e)=>{ e.preventDefault(); openLightbox(src); currentIndex = src; };
-      a.appendChild(img); gallery.appendChild(a);
-      appendedCount++; if (emptyMsg && appendedCount>0) emptyMsg.style.display = 'none';
+  // On first load: keep top if no hash; if hash, offset it beneath sticky header
+  window.addEventListener('DOMContentLoaded', () => {
+    if (location.hash) {
+      const target = document.querySelector(location.hash);
+      if (target) {
+        const prev = getComputedStyle(htmlEl).scrollBehavior;
+        htmlEl.style.scrollBehavior = 'auto';
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.pageYOffset - getHeaderH(),
+          left: 0,
+          behavior: 'auto'
+        });
+        htmlEl.style.scrollBehavior = prev === 'smooth' ? 'smooth' : '';
+      }
+    } else {
+      window.scrollTo(0, 0);
     }
+  });
 
-    function tryLoadName(name, extIndex=0){
-      if (extIndex>=exts.length) return;
-      const src = `assets/img/portfolio/${name}.${exts[extIndex]}`;
-      const test = new Image();
-      test.onload = ()=> appendImg(src);
-      test.onerror = ()=> tryLoadName(name, extIndex+1);
-      test.src = src;
-    }
+  // If header height changes (mobile URL bar), keep anchor position correct
+  let rafLock = false;
+  function reoffsetIfHashed() {
+    if (!location.hash || rafLock) return;
+    rafLock = true;
+    requestAnimationFrame(() => {
+      const target = document.querySelector(location.hash);
+      if (target) {
+        const prev = getComputedStyle(htmlEl).scrollBehavior;
+        htmlEl.style.scrollBehavior = 'auto';
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.pageYOffset - getHeaderH(),
+          left: 0,
+          behavior: 'auto'
+        });
+        htmlEl.style.scrollBehavior = prev === 'smooth' ? 'smooth' : '';
+      }
+      rafLock = false;
+    });
+  }
+  addEventListener('resize', reoffsetIfHashed);
+  addEventListener('orientationchange', reoffsetIfHashed);
+})();
 
-    manual.forEach(name=>{ tryLoadName(name); });
-    ids.forEach(i=> namePatterns(i).forEach(n => tryLoadName(n)));
+/* --------------------------- Your existing code -------------------------- */
+const $  = (q,root=document)=>root.querySelector(q);
+const $$ = (q,root=document)=>Array.from(root.querySelectorAll(q));
 
-    // Lightbox
-    const lb = $('#lightbox'), lbImg = $('#lbImg');
-    const lbClose = $('#lbClose'), lbPrev = $('#lbPrev'), lbNext = $('#lbNext');
-    let currentIndex = 0;
-    function openLightbox(src){ lbImg.src = src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
-    function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); }
-    lbClose.addEventListener('click', closeLightbox);
-    lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox(); });
-    document.addEventListener('keydown', (e)=>{ if(!lb.classList.contains('open')) return; if(e.key==='Escape') closeLightbox(); if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+/* Active nav link on scroll */
+const navLinks = $$('.nav a');
+const setActive = () => {
+  let hash = '#hero';
+  $$('main section').forEach(sec => {
+    const r = sec.getBoundingClientRect();
+    if (r.top < innerHeight * 0.35) hash = '#' + sec.id;
+  });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
+};
+document.addEventListener('scroll', setActive, { passive: true });
+setActive();
 
-    function cycle(direction){
-      const imgs = Array.from(document.querySelectorAll('.masonry img')).map(el=>el.getAttribute('src'));
-      if (!imgs.length) return null;
-      let idx = imgs.indexOf(lbImg.getAttribute('src'));
-      if (idx === -1) idx = 0;
-      idx = (idx + (direction==='next'?1:-1) + imgs.length) % imgs.length;
-      openLightbox(imgs[idx]);
-    }
-    function prev(){ cycle('prev'); }
-    function next(){ cycle('next'); }
-    lbPrev.addEventListener('click', prev);
-    lbNext.addEventListener('click', next);
+/* Back-to-top button */
+const topbtn = $('#topbtn');
+const onScroll = () => { topbtn.classList.toggle('show', scrollY > 640); };
+document.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+topbtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    document.getElementById('y').textContent = new Date().getFullYear();
+/* Masonry gallery loader (unchanged) */
+const gallery = $('#masonry');
+const emptyMsg = $('#galleryEmpty');
+const added = new Set();
+let appendedCount = 0;
 
-// Mobile nav toggle
+const exts = ['jpg','jpeg','png','webp','JPG','JPEG','PNG','WEBP'];
+const ids = Array.from({length:200}, (_,k)=>k+1);
+const namePatterns = (i)=>[ String(i), String(i).padStart(2,'0'), String(i).padStart(3,'0') ];
+
+const manual = Array.isArray(window.GALLERY_FILES) ? window.GALLERY_FILES : [];
+
+function appendImg(src){
+  if ([...gallery.querySelectorAll('img')].some(img=>img.getAttribute('src')===src)) return;
+  const a = document.createElement('a');
+  a.href = src; a.target = '_blank'; a.ariaLabel = 'Open image';
+  const img = new Image(); img.loading = 'lazy'; img.alt = 'Gallery image'; img.src = src;
+  img.onclick = (e)=>{ e.preventDefault(); openLightbox(src); currentIndex = src; };
+  a.appendChild(img); gallery.appendChild(a);
+  appendedCount++; if (emptyMsg && appendedCount>0) emptyMsg.style.display = 'none';
+}
+
+function tryLoadName(name, extIndex=0){
+  if (extIndex>=exts.length) return;
+  const src = `assets/img/portfolio/${name}.${exts[extIndex]}`;
+  const test = new Image();
+  test.onload = ()=> appendImg(src);
+  test.onerror = ()=> tryLoadName(name, extIndex+1);
+  test.src = src;
+}
+
+manual.forEach(name=>{ tryLoadName(name); });
+ids.forEach(i=> namePatterns(i).forEach(n => tryLoadName(n)));
+
+/* Lightbox */
+const lb = $('#lightbox'), lbImg = $('#lbImg');
+const lbClose = $('#lbClose'), lbPrev = $('#lbPrev'), lbNext = $('#lbNext');
+let currentIndex = 0;
+function openLightbox(src){ lbImg.src = src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
+function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); }
+lbClose.addEventListener('click', closeLightbox);
+lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox(); });
+document.addEventListener('keydown', (e)=>{ if(!lb.classList.contains('open')) return; if(e.key==='Escape') closeLightbox(); if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+
+function cycle(direction){
+  const imgs = Array.from(document.querySelectorAll('.masonry img')).map(el=>el.getAttribute('src'));
+  if (!imgs.length) return null;
+  let idx = imgs.indexOf(lbImg.getAttribute('src'));
+  if (idx === -1) idx = 0;
+  idx = (idx + (direction==='next'?1:-1) + imgs.length) % imgs.length;
+  openLightbox(imgs[idx]);
+}
+function prev(){ cycle('prev'); }
+function next(){ cycle('next'); }
+lbPrev.addEventListener('click', prev);
+lbNext.addEventListener('click', next);
+
+document.getElementById('y').textContent = new Date().getFullYear();
+
+/* --------------------------- Mobile nav toggle --------------------------- */
 const headerEl = document.querySelector('header');
 const toggleBtn = document.querySelector('.nav-toggle');
 const navMenu  = document.getElementById('navMenu');
 
-// Ensure menu is CLOSED on first load
+/* Sync CSS --headerH so the dropdown sits exactly below the header */
+function syncHeaderHeight() {
+  const h = (headerEl?.offsetHeight) || 66;
+  document.documentElement.style.setProperty('--headerH', h + 'px');
+}
+document.addEventListener('DOMContentLoaded', syncHeaderHeight);
+window.addEventListener('resize', syncHeaderHeight);
+window.addEventListener('orientationchange', syncHeaderHeight);
+
+/* Ensure menu is CLOSED on first load */
 document.addEventListener('DOMContentLoaded', () => {
   headerEl && headerEl.classList.remove('open');
   document.body.classList.remove('menu-open');
   if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
 });
 
-// Open/close on hamburger tap
+/* Open/close on hamburger tap */
 if (toggleBtn && headerEl) {
   toggleBtn.addEventListener('click', () => {
     const isOpen = headerEl.classList.toggle('open');
     toggleBtn.setAttribute('aria-expanded', String(isOpen));
-    document.body.classList.toggle('menu-open', isOpen); // lock/unlock scroll
+    document.body.classList.toggle('menu-open', isOpen);
+    syncHeaderHeight(); // update overlay offset
   });
 }
 
-// Close menu after clicking a link (nice on mobile)
-if (navMenu && headerEl && toggleBtn) {
+/* Close menu after clicking a link + offset anchor scrolling */
+if (navMenu && headerEl) {
   navMenu.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A') {
+    const a = e.target.closest('a[href^="#"]');
+    if (a) {
       headerEl.classList.remove('open');
-      toggleBtn.setAttribute('aria-expanded', 'false');
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
       document.body.classList.remove('menu-open');
+
+      // Smooth scroll with sticky-header offset
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.pageYOffset - (headerEl.offsetHeight || 66);
+        window.scrollTo({ top, left: 0, behavior: 'smooth' });
+        history.pushState(null, '', a.getAttribute('href'));
+      }
     }
   });
 }
+</script>
 
-
-  </script>
 </body>
 </html>
