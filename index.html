@@ -190,6 +190,58 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* --- prevent any horizontal scrolling --- */
+html, body { overflow-x: hidden; }
+
+/* use a custom property for header height on mobile */
+:root { --headerH: 66px; } /* tweak if your header is taller/shorter */
+
+/* mobile menu as fixed overlay */
+@media (max-width: 820px) {
+  .nav { position: relative; }
+
+  .nav-toggle { display: inline-flex; }
+
+  /* make dropdown a fixed layer anchored to viewport width */
+  .nav-menu {
+    position: fixed;
+    top: var(--headerH);  /* sits just below the sticky header */
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: none;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px 14px;
+    background: rgba(6, 9, 16, 0.98);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--glass);
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    z-index: 99;
+  }
+
+  header.open .nav-menu {
+    display: flex;
+    animation: dropdown .25s ease;
+  }
+
+  /* lock the page scroll when menu is open */
+  body.menu-open { overflow: hidden; }
+
+  /* menu item sizing */
+  .nav-menu a {
+    display: block;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+}
+
+@keyframes dropdown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
   </style>
 </head>
@@ -431,7 +483,6 @@
 
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    <script>
 // Mobile nav toggle
 const headerEl = document.querySelector('header');
 const toggleBtn = document.querySelector('.nav-toggle');
@@ -440,16 +491,16 @@ const navMenu  = document.getElementById('navMenu');
 toggleBtn.addEventListener('click', () => {
   const isOpen = headerEl.classList.toggle('open');
   toggleBtn.setAttribute('aria-expanded', String(isOpen));
+  document.body.classList.toggle('menu-open', isOpen); // lock/unlock scroll
 });
 
-// Close menu after clicking a link (nice on mobile)
 navMenu.addEventListener('click', (e) => {
   if (e.target.tagName === 'A') {
     headerEl.classList.remove('open');
     toggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
   }
 });
-</script>
 
   </script>
 </body>
