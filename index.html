@@ -143,33 +143,36 @@
   object-fit: cover;
 }
 
-.divider {
-  position: relative;
-  height: 18px;
-  margin-top: 40px; /* NEW: pushes divider further down */
-  background: linear-gradient(90deg,var(--np-blue) 0 25%,var(--np-red) 25% 50%, var(--white) 50% 62.5%, var(--ca-red) 62.5% 100%);
+/* Divider */
+.divider{
+  position:relative;
+  height:18px;
+  background:linear-gradient(
+    90deg,
+    var(--np-blue) 0 25%,
+    var(--np-red) 25% 50%,
+    var(--white) 50% 62.5%,
+    var(--ca-red) 62.5% 100%
+  );
 }
-
-.divider::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: -18px;
-  border-left: 45px solid transparent;
-  border-right: 45px solid transparent;
-  border-bottom: 18px solid var(--np-blue);
+.divider::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:-18px;
+  border-left:45px solid transparent;
+  border-right:45px solid transparent;
+  border-bottom:18px solid var(--np-blue);
 }
-
-.divider::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: -18px;
-  border-left: 45px solid transparent;
-  border-right: 45px solid transparent;
-  border-top: 18px solid var(--ca-red);
+.divider::after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:-18px;
+  border-left:45px solid transparent;
+  border-right:45px solid transparent;
+  border-top:18px solid var(--ca-red);
 }
-:after{content:"";position:absolute;right:0;bottom:-18px;border-left:45px solid transparent;border-right:45px solid transparent;border-top:18px solid var(--ca-red)}
 
   /* Sections */
   section{padding:70px 0;border-top:1px solid var(--glass)}
