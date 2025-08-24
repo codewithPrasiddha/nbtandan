@@ -232,7 +232,24 @@
   #topbtn.show{opacity:1;transform:none}
 
   @media (max-width:1100px){ .masonry{column-count:3} }
-  @media (max-width:820px){ .hero-wrap{grid-template-columns:1fr} .about{grid-template-columns:1fr} .masonry{column-count:2} .contact-form{margin-left:0;border-left:none} }
+
+  @media (max-width:820px){
+  .hero-wrap{ grid-template-columns:1fr; }
+  .about{ grid-template-columns:1fr; }
+  .masonry{ column-count:2; }
+
+  /* stack the contact section */
+  .contact-grid{
+    grid-template-columns:1fr; /* single column layout */
+    gap:24px;                  /* space between card and form */
+  }
+  .contact-form{
+    margin-left:0;
+    border-left:none;
+  }
+}
+
+  
   @media (max-width:540px){ .masonry{column-count:1} }
 
   /* Prevent sideways scroll globally */
