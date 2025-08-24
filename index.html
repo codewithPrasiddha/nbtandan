@@ -404,39 +404,93 @@ document.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 topbtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-/* Masonry gallery loader (unchanged) */
-const gallery = $('#masonry');
-const emptyMsg = $('#galleryEmpty');
-const added = new Set();
-let appendedCount = 0;
+/* ---------- Smart Masonry Loader (batch + lazy) ---------- */
+// HOW TO USE:
+// 1) If your image names aren't uniform, define an explicit list BEFORE this script:
+//    window.GALLERY_FILES = ["assets/img/portfolio/hero1.jpg", "assets/img/portfolio/nepal-02.webp", ...];
+// 2) If your names are sequential like 01.jpg ... 60.jpg, just adjust MAX and EXT below.
 
-const exts = ['jpg','jpeg','png','webp','JPG','JPEG','PNG','WEBP'];
-const ids = Array.from({length:200}, (_,k)=>k+1);
-const namePatterns = (i)=>[ String(i), String(i).padStart(2,'0'), String(i).padStart(3,'0') ];
+(function () {
+  const gallery = document.getElementById('masonry');
+  if (!gallery) return;
 
-const manual = Array.isArray(window.GALLERY_FILES) ? window.GALLERY_FILES : [];
+  // ======= CONFIG =======
+  const EXT = 'jpg';          // change to webp/png if you use that
+  const MAX = 60;             // how many images exist at most
+  const PAD = 2;              // zero pad width: 2 -> 01, 3 -> 001
+  const BASE = 'assets/img/portfolio/';
 
-function appendImg(src){
-  if ([...gallery.querySelectorAll('img')].some(img=>img.getAttribute('src')===src)) return;
-  const a = document.createElement('a');
-  a.href = src; a.target = '_blank'; a.ariaLabel = 'Open image';
-  const img = new Image(); img.loading = 'lazy'; img.alt = 'Gallery image'; img.src = src;
-  img.onclick = (e)=>{ e.preventDefault(); openLightbox(src); currentIndex = src; };
-  a.appendChild(img); gallery.appendChild(a);
-  appendedCount++; if (emptyMsg && appendedCount>0) emptyMsg.style.display = 'none';
-}
+  // Batch size adapts to user connection if available
+  const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+  const prefersSave = !!(conn && (conn.saveData || (conn.effectiveType && /2g/.test(conn.effectiveType))));
+  const BATCH_SIZE = prefersSave ? 6 : 12;
 
-function tryLoadName(name, extIndex=0){
-  if (extIndex>=exts.length) return;
-  const src = `assets/img/portfolio/${name}.${exts[extIndex]}`;
-  const test = new Image();
-  test.onload = ()=> appendImg(src);
-  test.onerror = ()=> tryLoadName(name, extIndex+1);
-  test.src = src;
-}
+  // ======= SOURCE LIST =======
+  // 1) Use provided manifest if present (best)
+  // 2) Otherwise, assume sequential filenames like 01.jpg ... MAX.jpg
+  const SOURCE_LIST = Array.isArray(window.GALLERY_FILES) && window.GALLERY_FILES.length
+    ? window.GALLERY_FILES.slice()
+    : Array.from({ length: MAX }, (_, i) => {
+        const n = String(i + 1).padStart(PAD, '0');
+        return `${BASE}${n}.${EXT}`;
+      });
 
-manual.forEach(name=>{ tryLoadName(name); });
-ids.forEach(i=> namePatterns(i).forEach(n => tryLoadName(n)));
+  let cursor = 0;
+
+  // Ensure we have a sentinel to trigger next batch
+  let sentinel = document.getElementById('gallerySentinel');
+  if (!sentinel) {
+    sentinel = document.createElement('div');
+    sentinel.id = 'gallerySentinel';
+    sentinel.style.height = '1px';
+    sentinel.style.marginTop = '1px';
+    gallery.after(sentinel);
+  }
+
+  function makeItem(src) {
+    const a = document.createElement('a');
+    a.href = src;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    const img = new Image();
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.alt = 'Gallery image';
+    img.src = src;
+    img.addEventListener('click', (e) => {
+      // If you want your custom lightbox:
+      if (typeof openLightbox === 'function') {
+        e.preventDefault();
+        openLightbox(src);
+      }
+    });
+    a.appendChild(img);
+    return a;
+  }
+
+  function loadBatch() {
+    if (cursor >= SOURCE_LIST.length) return;
+    const end = Math.min(cursor + BATCH_SIZE, SOURCE_LIST.length);
+    for (let i = cursor; i < end; i++) {
+      gallery.appendChild(makeItem(SOURCE_LIST[i]));
+    }
+    cursor = end;
+    // If we loaded everything, stop observing
+    if (cursor >= SOURCE_LIST.length && io) io.disconnect();
+  }
+
+  // Initial small batch quickly
+  loadBatch();
+
+  // Observe bottom to load more on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) loadBatch();
+    });
+  }, { rootMargin: '1000px 0px' }); // pre-load before it hits viewport
+
+  io.observe(sentinel);
+})();
 
 /* Lightbox */
 const lb = $('#lightbox'), lbImg = $('#lbImg');
