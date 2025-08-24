@@ -488,19 +488,33 @@ const headerEl = document.querySelector('header');
 const toggleBtn = document.querySelector('.nav-toggle');
 const navMenu  = document.getElementById('navMenu');
 
-toggleBtn.addEventListener('click', () => {
-  const isOpen = headerEl.classList.toggle('open');
-  toggleBtn.setAttribute('aria-expanded', String(isOpen));
-  document.body.classList.toggle('menu-open', isOpen); // lock/unlock scroll
+// Ensure menu is CLOSED on first load
+document.addEventListener('DOMContentLoaded', () => {
+  headerEl && headerEl.classList.remove('open');
+  document.body.classList.remove('menu-open');
+  if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
 });
 
-navMenu.addEventListener('click', (e) => {
-  if (e.target.tagName === 'A') {
-    headerEl.classList.remove('open');
-    toggleBtn.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('menu-open');
-  }
-});
+// Open/close on hamburger tap
+if (toggleBtn && headerEl) {
+  toggleBtn.addEventListener('click', () => {
+    const isOpen = headerEl.classList.toggle('open');
+    toggleBtn.setAttribute('aria-expanded', String(isOpen));
+    document.body.classList.toggle('menu-open', isOpen); // lock/unlock scroll
+  });
+}
+
+// Close menu after clicking a link (nice on mobile)
+if (navMenu && headerEl && toggleBtn) {
+  navMenu.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') {
+      headerEl.classList.remove('open');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+    }
+  });
+}
+
 
   </script>
 </body>
