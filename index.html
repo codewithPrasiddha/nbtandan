@@ -54,11 +54,18 @@
   .nav a:hover,.nav a.active{color:#101522;background:linear-gradient(90deg,var(--white),#d9e3ff)}
   .cta{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;font-weight:900;color:#001325;background:linear-gradient(90deg,var(--np-red),var(--ca-red));box-shadow:0 6px 18px rgba(211,47,47,.25)}
 
+
   /* Hero */
-  #hero{position:relative;overflow:hidden}
+#hero {
+  position: relative;
+  overflow: hidden;
+  padding: 10px 0;   /* override the global section padding */
+  border-top: none;  /* optional: remove top border line */
+}
+
   .hero-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:0px;align-items:center;padding:10px 0}
   .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--glass);backdrop-filter:blur(6px);font-weight:900}
-  .hero h2{font-size:56px;line-height:1.05;margin:14px 0 6px;font-weight:900}
+  .hero h2{font-size:56px;line-height:1.05;margin:6px 0 4px;font-weight:900}
   .np-sub{display:block;color:#cfe1ff;font-weight:800;margin:2px 0 18px}
   .hero p{color:#b6c2d6;margin:0 0 22px}
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
@@ -207,6 +214,8 @@
             <a class="cta" style="background:linear-gradient(90deg,var(--white),#e4eef9);color:#0d1322" href="https://www.linkedin.com/in/nar-bahadur-tandan-52074434/" target="_blank" rel="noopener">Connect on LinkedIn</a>
           </div>
         </div>
+    
+    
         <div class="hero-card">
           <div class="hero-flags">
             <img src="assets/img/flag.png" alt="Nepal & Canada flags" />
@@ -230,6 +239,7 @@
               <div><strong>Follow</strong><br><a href="https://www.facebook.com/nb.tandan">facebook.com/nb.tandan</a></div>
             </div>
           </div>
+          
           <div class="card">
             <h4 style="margin:0 0 10px">Story <span class="np-sub">/ यात्रा</span></h4>
             <p class="muted">From grassroots organizing to international collaboration, NB Tandan’s journey is about connecting people with purpose — celebrating Nepali identity while forging lasting ties with Canadian communities.</p>
